@@ -1,0 +1,12 @@
+{
+  "name": "@guloggratis/code-challenge-blackjack",
+  "private": true,
+  "scripts": {
+    "build": "tsc",
+    "test": "vitest"
+  },
+  "devDependencies": {
+    "typescript": "^6.0.2",
+    "vitest": "^4.1.4"
+  }
+}
