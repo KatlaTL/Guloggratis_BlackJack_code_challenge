@@ -24,6 +24,7 @@ const priorityValues: Record<CardType, number> = {
   ten: 10, jack: 11, queen: 12, king: 13
 }
 
+
 /**
  * Main function to handle dealed cards.
  * @param dealedCards - string[]
@@ -62,6 +63,7 @@ export const blackjackHighest = (dealtCards: string[]): ResultType => {
   else if (totalSum > 21) return `above ${highestCard}`;
   return `below ${highestCard}`;
 }
+
 
 /**
  * Get the value of the card from the priorityValues record. \
