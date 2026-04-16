@@ -39,25 +39,27 @@ export const blackjackHighest = (dealtCards: string[]): ResultType => {
   if (validCards.length === 0) {
     throw new Error("No valid cards provided");
   }
-
-  let aces: number = validCards.filter((value) => value === "ace").length;
-
+  
   let totalSum: number = validCards.reduce((sum, currentCard) => sum + cardValues[currentCard], 0);
 
+  let highValueAces: number = validCards.filter((value) => value === "ace").length;
+  
   // If the totalSum is above 21 and there are any aces in the array, 
   // then turn the aces value from 11 to 1 one by one.
-  while (totalSum > 21 && aces > 0) {
+  while (totalSum > 21 && highValueAces > 0) {
     totalSum = totalSum - 10;
-    aces--;
+    highValueAces--;
   }
 
   let highestCard: CardType = validCards[0];
 
   // Find the highest card based on the rankings in the priorityValues record 
   for (let card of validCards) {
-    if (calculatePriority(card, aces) > calculatePriority(highestCard, aces)) {
+    if (calculatePriority(card, highValueAces) > calculatePriority(highestCard, highValueAces)) {
       highestCard = card;
     }
+
+    if (highestCard === "ace") break;
   }
 
   if (totalSum === 21) return `blackjack ${highestCard}`;
