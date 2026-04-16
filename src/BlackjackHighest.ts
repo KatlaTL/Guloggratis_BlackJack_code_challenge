@@ -24,14 +24,15 @@ const priorityValues: Record<CardType, number> = {
   ten: 10, jack: 11, queen: 12, king: 13
 }
 
+const ACE_HIGH_PRIORITY = 14;
 
 /**
- * Main function to handle dealed cards.
- * @param dealedCards - string[]
+ * Main function to handle dealt cards.
+ * @param dealtCards - string[]
  * @returns 
  */
 export const blackjackHighest = (dealtCards: string[]): ResultType => {
-  // Ensure the untrusted dealedCards string array are indeed of CardType at runtime
+  // Ensure the untrusted dealtCards string array are indeed of CardType at runtime
   // Filter away all strings which are not a part of CardType 
   const validCards: CardType[] = dealtCards.filter(isCard);
 
@@ -67,14 +68,14 @@ export const blackjackHighest = (dealtCards: string[]): ResultType => {
 
 /**
  * Get the value of the card from the priorityValues record. \
- * If the card is an ace and the aces count is above 0 return 14 as the ace value.
+ * If the card is an ace and the highValueAces count is above 0 return 14 as the ace value.
  * @param card - CardType
- * @param aces - number
+ * @param highValueAces - number
  * @returns priority value of CardType
  */
-const calculatePriority = (card: CardType, aces: number): number => {
-  if (card === "ace" && aces > 0) {
-    return 14;
+const calculatePriority = (card: CardType, highValueAces: number): number => {
+  if (card === "ace" && highValueAces > 0) {
+    return ACE_HIGH_PRIORITY;
   }
 
   return priorityValues[card];
