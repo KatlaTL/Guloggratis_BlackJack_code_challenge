@@ -24,8 +24,6 @@ const priorityValues: Record<CardType, number> = {
   ten: 10, jack: 11, queen: 12, king: 13
 }
 
-const ACE_HIGH_PRIORITY = 14;
-
 /**
  * Main function to handle dealt cards.
  * @param dealtCards - string[]
@@ -53,36 +51,25 @@ export const blackjackHighest = (dealtCards: string[]): ResultType => {
 
   let highestCard: CardType = validCards[0];
 
-  // Find the highest card based on the rankings in the priorityValues record 
-  for (let card of validCards) {
-    if (calculatePriority(card, highValueAces) > calculatePriority(highestCard, highValueAces)) {
-      highestCard = card;
+  if (highValueAces > 0) {
+    // If an ace has been counted as 11, then ace will automatically be the highest card
+    highestCard = "ace";
+  } else {
+    // Find the highest card based on the rankings in the priorityValues record 
+    for (let card of validCards) {
+      if (priorityValues[card] > priorityValues[highestCard]) {
+        highestCard = card;
+      }
+      
+      // If a king is found, stop the loop as there are no higher card at this point
+      if (highestCard === "king") break;
     }
-
-    if (highestCard === "ace") break;
   }
 
   if (totalSum === 21) return `blackjack ${highestCard}`;
   else if (totalSum > 21) return `above ${highestCard}`;
   return `below ${highestCard}`;
 }
-
-
-/**
- * Get the value of the card from the priorityValues record. \
- * If the card is an ace and the highValueAces count is above 0 return 14 as the ace value.
- * @param card - CardType
- * @param highValueAces - number
- * @returns priority value of CardType
- */
-const calculatePriority = (card: CardType, highValueAces: number): number => {
-  if (card === "ace" && highValueAces > 0) {
-    return ACE_HIGH_PRIORITY;
-  }
-
-  return priorityValues[card];
-}
-
 
 /**
  * Type Guard to with a type predicate to check if the provided value is of CardType. \
